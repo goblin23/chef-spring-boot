@@ -1,21 +1,5 @@
 use_inline_resources
 
-action :uninstall do
-
-	service new_resource.name do
-		action [ :stop, :disable ]
-	end
-	
-	file "/etc/systemd/system/#{new_resource.name}.service" do
-		action :delete
-	end
-	
-	directory "/opt/spring-boot/#{name}" do
-		action :delete
-	end
-	
-end
-
 action :install do
 
 	jar_directory = "/opt/spring-boot/#{new_resource.name}"
@@ -74,6 +58,23 @@ action :install do
 		command "curl http://localhost:#{new_resource.port}"
 		retries 12
 		retry_delay 5
+	end
+	
+end
+
+action :uninstall do
+
+	service new_resource.name do
+		action [ :stop, :disable ]
+	end
+	
+	file "/etc/systemd/system/#{new_resource.name}.service" do
+		action :delete
+	end
+	
+	directory "/opt/spring-boot/#{new_resource.name}" do
+		recursive true
+		action :delete
 	end
 	
 end

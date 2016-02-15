@@ -1,3 +1,4 @@
+actions :uninstall, :install
 default_action :install
 
 property :name, String, name_property: true

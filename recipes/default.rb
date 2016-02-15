@@ -14,3 +14,7 @@ end
 spring_boot_web_app 'hello-world' do
 	action :uninstall
 end
+
+spring_boot_web_app 'no-such-app' do
+	action :uninstall
+end

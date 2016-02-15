@@ -13,6 +13,11 @@ provisioner:
 platforms:
 #  - name: ubuntu-14.04
   - name: centos-7.1
+  
+driver_config:
+  customize:
+    cpus: 2
+    memory: 1024
 
 suites:
   - name: default
