@@ -1,4 +1,6 @@
-# spring-boot
+# Spring Boot Chef
 
-TODO: Enter the cookbook description here.
+Chef cookbook to install and deploy Spring Boot Applications. Currently only supports Spring Boot Web Apps.
+
+*Work in Progress*
 
