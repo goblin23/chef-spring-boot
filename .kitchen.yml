@@ -23,4 +23,5 @@ suites:
   - name: default
     run_list:
       - recipe[spring-boot::default]
+      - recipe[spring-boot::example]
     attributes:

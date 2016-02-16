@@ -2,6 +2,10 @@ use_inline_resources
 
 action :install do
 
+	if new_resource.jar_remote_path.to_s.empty?
+		Chef::Application.fatal!("jar_remote_path may not be empty", 1)
+	end
+
 	jar_directory = "/opt/spring-boot/#{new_resource.name}"
 	jar_path = jar_directory + "/" + new_resource.name + '.boot_web_app.jar'
 
@@ -54,10 +58,11 @@ action :install do
 		only_if { bootapp_service_template.updated_by_last_action? || bootapp_remote_file.updated_by_last_action? }
 	end
 	
-	execute "Ensure web app is started up" do
-		command "curl http://localhost:#{new_resource.port}"
-		retries 12
-		retry_delay 5
+	execute "Ensure #{new_resource.name} web app is started up" do
+		command "curl http://127.0.0.1:#{new_resource.port}"
+		retries new_resource.wait_for_http_retries
+		retry_delay new_resource.wait_for_http_retry_delay
+		only_if { new_resource.wait_for_http }
 	end
 	
 end
