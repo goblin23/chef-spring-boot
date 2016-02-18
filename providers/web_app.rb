@@ -7,7 +7,8 @@ action :install do
 	end
 
 	jar_directory = "/opt/spring-boot/#{new_resource.name}"
-	jar_path = jar_directory + "/" + new_resource.name + '.boot_web_app.jar'
+	jar_path = jar_directory + "/" + new_resource.name + '.jar'
+	logging_directory = new_resource.logging_directory + '/' + new_resource.name
 
 	user new_resource.user
 	
@@ -19,7 +20,15 @@ action :install do
 	directory jar_directory do
 		owner new_resource.user
 		group new_resource.group
-		mode '0774'
+		mode '0755'
+		action :create
+		recursive true
+	end
+	
+	directory logging_directory do
+		owner new_resource.user
+		group new_resource.group
+		mode '0755'
 		action :create
 		recursive true
 	end
@@ -28,7 +37,7 @@ action :install do
 		source new_resource.jar_remote_path
 		owner new_resource.user
 		group new_resource.group
-		mode '0774'
+		mode '0755'
 		action :create
 	end
 	
@@ -41,7 +50,10 @@ action :install do
 			:description => new_resource.name,
 			:user => new_resource.user,
 			:jar_path => jar_path,
-			:port => new_resource.port
+			:java_opts => new_resource.java_opts,
+			:boot_opts => new_resource.boot_opts,
+			:port => new_resource.port,
+			:logging_directory => logging_directory
 		})
 	end
 	

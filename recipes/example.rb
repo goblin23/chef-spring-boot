@@ -10,9 +10,20 @@ spring_boot_web_app 'app_1' do
 	group 'another_bootapp_group'
 	port 8091
 	
+	java_opts '-Xmx256m -Xms128m'
+	boot_opts '--spring.application.name=app_1'
+	
 	wait_for_http true
-	wait_for_http_retries 30
+	wait_for_http_retries 60
 	wait_for_http_retry_delay 2
+end
+
+spring_boot_web_app 'app_2' do
+	jar_remote_path web_app_jar
+	port 8092
+	
+	java_opts '-Xmx256m -Xms128m'
+	boot_opts '--spring.application.name=app_2'
 end
 
 spring_boot_web_app 'app_0' do
