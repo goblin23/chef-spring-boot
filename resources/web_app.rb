@@ -8,7 +8,6 @@ attribute :port, kind_of: Integer, default: 8080
 attribute :jar_remote_path, kind_of: String
 attribute :java_opts, kind_of: String, default: ''
 attribute :boot_opts, kind_of: String, default: ''
-attribute :logging_directory, kind_of: String, default: '/var/log'
 
 attribute :wait_for_http, kind_of: [TrueClass, FalseClass], default: true
 attribute :wait_for_http_retries, kind_of: Integer, default: 24
