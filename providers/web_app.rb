@@ -46,6 +46,7 @@ action :install do
     mode '0755'
     owner 'root'
     group 'root'
+    cookbook 'spring-boot'
     variables(
       description: new_resource.name,
       user: new_resource.user,
