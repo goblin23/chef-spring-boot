@@ -1,5 +1,4 @@
-web_app_jar = 'file:///' + Chef::Config[:file_cache_path] \
- + '/cookbooks/spring-boot/files/spring-boot-hello-world.jar'
+web_app_jar = 'https://github.com/EtienneK/spring-boot-web-sample/raw/master/dist/spring-boot-web-sample-0.0.1-SNAPSHOT.jar'
 
 spring_boot_web_app 'app_0' do
   jar_remote_path web_app_jar
