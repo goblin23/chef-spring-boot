@@ -20,7 +20,7 @@ action :install do
   directory jar_directory do
     owner new_resource.user
     group new_resource.group
-    mode '0755'
+    mode '0500'
     action :create
     recursive true
   end
@@ -28,7 +28,7 @@ action :install do
   directory logging_directory do
     owner new_resource.user
     group new_resource.group
-    mode '0755'
+    mode '0700'
     action :create
     recursive true
   end
@@ -37,13 +37,50 @@ action :install do
     source new_resource.jar_remote_path
     owner new_resource.user
     group new_resource.group
-    mode '0755'
+    mode '0500'
     action :create
   end
 
+  if new_resource.init_system == 'systemd'
+    install_systemd(new_resource, jar_path, logging_directory, bootapp_remote_file)
+  elsif new_resource.init_system == 'init.d'
+  else
+    Chef::Application.fatal!("Invalid init system specified: #{new_resource.init_system}", 1)
+  end
+
+  execute "Ensure #{new_resource.name} web app is started up" do
+    command "curl http://127.0.0.1:#{new_resource.port}"
+    retries new_resource.wait_for_http_retries
+    retry_delay new_resource.wait_for_http_retry_delay
+    only_if { new_resource.wait_for_http }
+  end
+
+end
+
+action :uninstall do
+  service new_resource.name do
+    action [:stop, :disable]
+  end
+  if new_resource.init_system == 'systemd'
+    file "/etc/systemd/system/#{new_resource.name}.service" do
+      action :delete
+    end
+  elsif new_resource.init_system == 'init.d'
+  else
+    Chef::Application.fatal!("Invalid init system specified: #{new_resource.init_system}", 1)
+  end
+
+  directory "/opt/spring-boot/#{new_resource.name}" do
+    recursive true
+    action :delete
+  end
+
+end
+
+def install_systemd(new_resource, jar_path, logging_directory, bootapp_remote_file)
   bootapp_service_template = template "/etc/systemd/system/#{new_resource.name}.service" do
     source 'bootapp.service.erb'
-    mode '0755'
+    mode '0664'
     owner 'root'
     group 'root'
     cookbook 'spring-boot'
@@ -70,29 +107,4 @@ action :install do
     action :restart
     only_if { bootapp_service_template.updated_by_last_action? || bootapp_remote_file.updated_by_last_action? }
   end
-
-  execute "Ensure #{new_resource.name} web app is started up" do
-    command "curl http://127.0.0.1:#{new_resource.port}"
-    retries new_resource.wait_for_http_retries
-    retry_delay new_resource.wait_for_http_retry_delay
-    only_if { new_resource.wait_for_http }
-  end
-
-end
-
-action :uninstall do
-
-  service new_resource.name do
-    action [:stop, :disable]
-  end
-
-  file "/etc/systemd/system/#{new_resource.name}.service" do
-    action :delete
-  end
-
-  directory "/opt/spring-boot/#{new_resource.name}" do
-    recursive true
-    action :delete
-  end
-
 end
