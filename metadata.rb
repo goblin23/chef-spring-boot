@@ -4,7 +4,7 @@ maintainer_email 'you@example.com'
 license 'Apache License, Version 2.0'
 description 'Installs/Configures spring-boot-app'
 long_description 'Installs/Configures spring-boot-app'
-version '0.4.0'
+version '0.5.0'
 
 depends 'java'
 
