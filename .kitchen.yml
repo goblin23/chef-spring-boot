@@ -8,8 +8,8 @@ provisioner:
 
 # Uncomment the following verifier to leverage Inspec instead of Busser (the
 # default verifier)
-# verifier:
-#   name: inspec
+verifier:
+  name: inspec
 
 platforms:
 #  - name: ubuntu-14.04
@@ -26,3 +26,6 @@ suites:
       - recipe[spring-boot::default]
       - recipe[spring-boot::example]
     attributes:
+    verifier:
+      inspec_tests:
+        - test/recipes/example_test.rb
