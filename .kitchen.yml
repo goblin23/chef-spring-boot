@@ -12,7 +12,7 @@ verifier:
   name: inspec
 
 platforms:
-#  - name: ubuntu-14.04
+  - name: ubuntu-14.04
   - name: centos-7.1
 
 driver_config:
@@ -21,11 +21,21 @@ driver_config:
     memory: 1024
 
 suites:
-  - name: default
+  - name: init
     run_list:
       - recipe[spring-boot::default]
-      - recipe[spring-boot::example]
+      - recipe[spring-boot::example_init]
     attributes:
     verifier:
       inspec_tests:
-        - test/recipes/example_test.rb
+        - test/recipes/example_init_test.rb
+  - name: systemd
+    run_list:
+      - recipe[spring-boot::default]
+      - recipe[spring-boot::example_systemd]
+    attributes:
+    verifier:
+      inspec_tests:
+        - test/recipes/example_systemd_test.rb
+    excludes:
+      - name: ubuntu-14.04
