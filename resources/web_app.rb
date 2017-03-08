@@ -78,10 +78,11 @@ action :install do
         logging_directory: logging_directory
       )
       notifies :restart, "service[#{new_resource.name}]", :delayed
-      notifies :run, "execute[/usr/bin/systemctl daemon-reload]", :imediately
+      notifies :run, "execute[systemctl_daemon_reload]", :immediately
     end
 
-    execute '/usr/bin/systemctl daemon-reload' do
+    execute 'systemctl_daemon_reload' do
+      command '/usr/bin/systemctl daemon-reload'
       action :nothing
     end
 
@@ -129,7 +130,12 @@ action :uninstall do
   if new_resource.init_system == 'systemd'
     file "/etc/systemd/system/#{new_resource.name}.service" do
       action :delete
-      notifies :run, "execute[/usr/bin/systemctl daemon-reload]", :imediately
+      notifies :run, "execute[systemctl_daemon_reload]", :immediately
+    end
+
+    execute 'systemctl_daemon_reload' do
+      command '/usr/bin/systemctl daemon-reload'
+      action :nothing
     end
   elsif new_resource.init_system == 'init.d'
     link "/etc/init.d/#{new_resource.name}" do
