@@ -38,4 +38,4 @@ suites:
       inspec_tests:
         - test/recipes/example_systemd_test.rb
     excludes:
-      - name: ubuntu-14.04
+      - ubuntu-14.04
