@@ -13,6 +13,18 @@ describe 'spring-boot::example_init' do
       runner.converge(described_recipe)
     end
 
+    it 'creates the app users' do
+      %w{bootapp another_bootapp_user}.each do |user|
+        expect(chef_run).to create_user(user)
+      end
+    end
+
+    it 'creates the groups' do
+      %w{bootapp another_bootapp_group}.each do |group|
+        expect(chef_run).to create_group(group)
+      end
+    end
+
     it 'converges successfully' do
       expect { chef_run }.to_not raise_error
     end

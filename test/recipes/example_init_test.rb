@@ -22,6 +22,10 @@ describe port(9092) do
   it { should be_listening }
 end
 
+describe file('/opt/spring-boot/app_1_init/app_1_init.jar') do
+  it { should be_owned_by  'another_bootapp_user'}
+  it { should be_grouped_into 'another_bootapp_group'}
+end
 describe file('/opt/spring-boot/app_0_initd') do
   it { should_not exist }
 end
