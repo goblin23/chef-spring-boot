@@ -9,6 +9,7 @@ property :port, kind_of: Integer, default: 8080
 property :jar_remote_path, kind_of: String, required: true
 property :java_opts, kind_of: String, default: ''
 property :boot_opts, kind_of: String, default: ''
+property :properties, kind_of: Hash, default: {}
 
 property :init_system, kind_of: String, default: 'systemd'
 
@@ -16,14 +17,15 @@ property :wait_for_http, kind_of: [TrueClass, FalseClass], default: true
 property :wait_for_http_retries, kind_of: Integer, default: 24
 property :wait_for_http_retry_delay, kind_of: Integer, default: 5
 
-
 action :install do
-#  require "pry"; binding.pry
+  #  require "pry"; binding.pry
   jar_directory = "/opt/spring-boot/#{new_resource.name}"
   jar_path = jar_directory + '/' + new_resource.name + '.jar'
   logging_directory = jar_directory + '/logs'
 
-  declare_resource(:user, new_resource.user, caller[0])
+  declare_resource(:user, new_resource.user, caller[0]) do
+    shell '/usr/sbin/nologin'
+  end
 
   declare_resource(:group, new_resource.group, caller[0]) do
     append true
@@ -61,6 +63,11 @@ action :install do
   #   user 'root'
   # end
 
+  file "#{jar_directory}/application.properties" do
+    content properties.map { |k, v| "#{k}=#{v}" }.join("\n")
+    not_if 'properties == {}'
+  end
+
   if new_resource.init_system == 'systemd'
     template "/etc/systemd/system/#{new_resource.name}.service" do
       source 'bootapp.service.erb'
@@ -78,7 +85,7 @@ action :install do
         logging_directory: logging_directory
       )
       notifies :restart, "service[#{new_resource.name}]", :delayed
-      notifies :run, "execute[systemctl_daemon_reload]", :immediately
+      notifies :run, 'execute[systemctl_daemon_reload]', :immediately
     end
 
     execute 'systemctl_daemon_reload' do
@@ -87,7 +94,7 @@ action :install do
     end
 
   elsif new_resource.init_system == 'init.d'
-    bootapp_service_template = template "#{jar_directory}/#{new_resource.name}.conf" do
+    template "#{jar_directory}/#{new_resource.name}.conf" do
       source 'bootapp.conf.erb'
       mode '0400'
       owner 'root'
@@ -107,7 +114,7 @@ action :install do
       to jar_path
     end
   else
-    Chef::Application.fatal!("Invalid init system specified: #{new_resource.init_system}", 1)
+    Chef::Application.fatal!("Invalid init system specified: #{init_system}", 1)
   end
 
   service new_resource.name do
@@ -130,7 +137,7 @@ action :uninstall do
   if new_resource.init_system == 'systemd'
     file "/etc/systemd/system/#{new_resource.name}.service" do
       action :delete
-      notifies :run, "execute[systemctl_daemon_reload]", :immediately
+      notifies :run, 'execute[systemctl_daemon_reload]', :immediately
     end
 
     execute 'systemctl_daemon_reload' do
@@ -142,7 +149,7 @@ action :uninstall do
       action :delete
     end
   else
-    Chef::Application.fatal!("Invalid init system specified: #{new_resource.init_system}", 1)
+    Chef::Application.fatal!("Invalid init system specified: #{init_system}", 1)
   end
 
   directory "/opt/spring-boot/#{new_resource.name}" do
@@ -150,5 +157,4 @@ action :uninstall do
     action :delete
     user 'root'
   end
-
 end
