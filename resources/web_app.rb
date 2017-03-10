@@ -10,6 +10,8 @@ property :jar_remote_path, kind_of: String, required: true
 property :java_opts, kind_of: String, default: ''
 property :boot_opts, kind_of: String, default: ''
 property :properties, kind_of: Hash, default: {}
+property :repo_user, kind_of: String
+property :repo_password, kind_of: String
 
 property :init_system, kind_of: String, default: 'systemd'
 
@@ -22,7 +24,9 @@ action :install do
   jar_directory = "/opt/spring-boot/#{new_resource.name}"
   jar_path = jar_directory + '/' + new_resource.name + '.jar'
   logging_directory = jar_directory + '/logs'
-
+  unless repo_user.nil? or repo_password.nil?
+    basic_auth = "#{repo_user}:#{repo_password}"
+  end
   declare_resource(:user, new_resource.user, caller[0]) do
     shell '/usr/sbin/nologin'
   end
@@ -52,6 +56,9 @@ action :install do
     source new_resource.jar_remote_path
     owner new_resource.user
     group new_resource.group
+    unless basic_auth.nil?
+      headers ({"Authorization"=>"Basic #{ Base64.encode64("#{basic_auth}").strip }"})
+    end
     mode '0500'
     action :create
     notifies :restart, "service[#{new_resource.name}]", :delayed
