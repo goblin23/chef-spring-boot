@@ -22,10 +22,22 @@ describe port(9092) do
   it { should be_listening }
 end
 
-describe file('/opt/spring-boot/app_1_init/app_1_init.jar') do
-  it { should be_owned_by  'another_bootapp_user'}
-  it { should be_grouped_into 'another_bootapp_group'}
+describe user('another_bootapp_user') do
+  its('shell') { should eq '/usr/sbin/nologin' }
 end
+
+describe file('/opt/spring-boot/app_1_initd/app_1_initd.jar') do
+  it { should be_owned_by  'another_bootapp_user' }
+  it { should be_grouped_into 'another_bootapp_group' }
+  its('mode') { should cmp '0500' }
+end
+
+describe file('/opt/spring-boot/app_1_initd/app_1_initd.conf') do
+  it { should be_owned_by  'root' }
+  it { should be_grouped_into 'root' }
+  its('mode') { should cmp '0400' }
+end
+
 describe file('/opt/spring-boot/app_0_initd') do
   it { should_not exist }
 end
