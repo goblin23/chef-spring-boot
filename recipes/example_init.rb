@@ -12,7 +12,7 @@ spring_boot_web_app 'app_1_initd' do
   user 'another_bootapp_user'
   group 'another_bootapp_group'
   port 9091
-  properties Hash['a', 100, 'b', 200]
+  properties { 'app_1_initd' => { 'a' => '5', 'b' => '10' }}
   java_opts '-Xmx256m -Xms128m'
   boot_opts '--spring.application.name=app_1_initd'
 
