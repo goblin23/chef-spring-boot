@@ -9,7 +9,7 @@ property :port, kind_of: Integer, default: 8080
 property :jar_remote_path, kind_of: String, required: true
 property :java_opts, kind_of: String, default: ''
 property :boot_opts, kind_of: String, default: ''
-property :properties, kind_of: Hash, default: {}
+property :properties, kind_of: Hash
 property :repo_user, kind_of: String
 property :repo_password, kind_of: String
 
@@ -69,12 +69,13 @@ action :install do
   #   command "chattr +i #{jar_path}"
   #   user 'root'
   # end
-
-  file "#{jar_directory}/application.properties" do
-    content properties.map { |k, v| "#{k}=#{v}" }.join("\n")
-    not_if 'properties == {}'
+  if property_is_set?(:properties)
+    properties.each do |key, value|
+      file "#{jar_directory}/#{key}.properties" do
+        content value.map { |k, v| "#{k}=#{v}" }.join("\n")
+      end
+    end
   end
-
   if new_resource.init_system == 'systemd'
     template "/etc/systemd/system/#{new_resource.name}.service" do
       source 'bootapp.service.erb'
