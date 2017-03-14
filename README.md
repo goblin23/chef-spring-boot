@@ -34,25 +34,24 @@ end
 - `port` - the port that the web_app listens on `default: 8080`
 - `jar_remote_path` - the location the jar_file is fetched from
 - `java_opts` - the `JAVA_OPTS` the application is started with
-- `boot_opts`,  the `BOOT_OPTS` the application is started with
-- `properties`, a Hash that describes properties files
-e.g.: `{ 'app_1_initd' => { 'a' => '5', 'b' => '10' }, 'other_properties' => { 'c' => '25'}}` would create two properties files:
-`app_1_initd.properties`
-```
-a=5
-b=10
-```
-and `other_properties.properties`
-```
-c=25
-```
-- `repo_user`,  String
-- `repo_password`,  String
-- `init_system`,  'systemd'
-- `wait_for_http`,  default: true
-- `wait_for_http_retries`,  default: 24
-- `wait_for_http_retry_delay` default: 5
+- `boot_opts` - the `BOOT_OPTS` the application is started with
+- `properties` - a Hash that describes properties files
+- `repo_user` - the user if your `jar_remote_path` is protected by basic auth
+- `repo_password` - the password if your `jar_remote_path` is protected by basic auth
+- `init_system` - for now `systemd` and `initd` are valid options `default: 'systemd'`
+- `wait_for_http` - should chef wait for the webapp to answer `default: true`
+- `wait_for_http_retries` - how many times should chef-client retry   `default: 24`
+- `wait_for_http_retry_delay` - how long should chef-client wait before each request `default: 5`
 
+### Example usage
+#### Properties
+e.g.:
+`{ 'app_1_initd' => { 'a' => '5', 'b' => '10' }, 'other_properties' => { 'c' => '25'}}` would create two properties files:
+
+file                          | content       |
+------------                  | ------------- |
+`app_1_initd.properties`      | `a=5`<br> `b=10`| 
+`other_properties.properties` | `c=25`        |
 
 ## Testing
 
