@@ -27,11 +27,11 @@ action :install do
   unless repo_user.nil? or repo_password.nil?
     basic_auth = "#{repo_user}:#{repo_password}"
   end
-  declare_resource(:user, new_resource.user, caller[0]) do
+  declare_resource(:user, new_resource.user) do
     shell '/usr/sbin/nologin'
   end
 
-  declare_resource(:group, new_resource.group, caller[0]) do
+  declare_resource(:group, new_resource.group) do
     append true
     members [new_resource.user]
   end
