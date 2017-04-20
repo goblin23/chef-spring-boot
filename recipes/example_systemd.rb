@@ -23,7 +23,7 @@ end
 spring_boot_web_app 'app_2' do
   jar_remote_path web_app_jar
   port 8092
-
+  
   java_opts '-Xmx256m -Xms128m'
   boot_opts '--spring.application.name=app_2'
 end
