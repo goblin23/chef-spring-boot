@@ -49,7 +49,7 @@ action :install do
 
   if new_resource.init_system == 'systemd'
     install_systemd(new_resource, jar_path, logging_directory, bootapp_remote_file)
-  elsif new_resource.init_system == 'init.d'
+  elsif new_resource.init_system == 'init'
     install_initd(new_resource, jar_directory, jar_path, logging_directory, bootapp_remote_file)
   else
     Chef::Application.fatal!("Invalid init system specified: #{new_resource.init_system}", 1)
