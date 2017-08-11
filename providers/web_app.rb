@@ -1,7 +1,6 @@
 use_inline_resources
 
 action :install do
-
   if new_resource.jar_remote_path.to_s.empty?
     Chef::Application.fatal!('jar_remote_path may not be empty', 1)
   end
@@ -61,7 +60,6 @@ action :install do
     retry_delay new_resource.wait_for_http_retry_delay
     only_if { new_resource.wait_for_http }
   end
-
 end
 
 action :uninstall do
@@ -86,7 +84,6 @@ action :uninstall do
     action :delete
     user 'root'
   end
-
 end
 
 def install_initd(new_resource, jar_directory, jar_path, logging_directory, bootapp_remote_file)
