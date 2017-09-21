@@ -4,25 +4,36 @@ driver:
 
 provisioner:
   name: chef_zero
-  require_chef_omnibus: 12.4.1
+  require_chef_omnibus: 12
 
-# Uncomment the following verifier to leverage Inspec instead of Busser (the
-# default verifier)
-# verifier:
-#   name: inspec
+verifier:
+  name: inspec
 
 platforms:
-#  - name: ubuntu-14.04
-  - name: centos-7.1
-  
+  - name: ubuntu-14.04
+  - name: centos-7.3
+
 driver_config:
   customize:
     cpus: 2
     memory: 1024
 
 suites:
-  - name: default
+  - name: init
     run_list:
       - recipe[spring-boot::default]
-      - recipe[spring-boot::example]
+      - recipe[spring-boot::example_init]
     attributes:
+    verifier:
+      inspec_tests:
+        - test/recipes/example_init_test.rb
+  - name: systemd
+    run_list:
+      - recipe[spring-boot::default]
+      - recipe[spring-boot::example_systemd]
+    attributes:
+    verifier:
+      inspec_tests:
+        - test/recipes/example_systemd_test.rb
+    excludes:
+      - ubuntu-14.04
