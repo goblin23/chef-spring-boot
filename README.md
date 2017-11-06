@@ -42,6 +42,9 @@ end
 - `wait_for_http` - should chef wait for the webapp to answer `default: true`
 - `wait_for_http_retries` - how many times should chef-client retry   `default: 24`
 - `wait_for_http_retry_delay` - how long should chef-client wait before each request `default: 5`
+- `jmx_port` - if this is set, the port on which JMX will listen
+- `jmx_ssl` - set to true if you want SSL enabled in JMX `default: false`
+- `jmx_credentials` - Hash of the credentials for JMX connections, leave empty for disabling authentication, `default: monitorRole with readonly and empty password`
 
 ### Example usage
 #### Properties
@@ -50,8 +53,20 @@ e.g.:
 
 file                          | content       |
 ------------                  | ------------- |
-`app_1_initd.properties`      | `a=5`<br> `b=10`| 
+`app_1_initd.properties`      | `a=5`<br> `b=10`|
 `other_properties.properties` | `c=25`        |
+
+#### JMX credentials
+e.g.:
+`{ 'monitorRole' => { 'password' => 'monitor', 'access' => 'readonly'}}` would create the two files jmxremote.access and jmxremote.password as follows:
+
+```
+# jmxremote.access
+monitorRole readonly
+
+# jmxremote.password
+monitorRole monitor
+```
 
 ## Testing
 
