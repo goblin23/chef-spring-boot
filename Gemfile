@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem  'rspec/retry'
+gem  'rspec-retry'
 gem  'berkshelf'
 gem  'foodcritic'
 gem  'test-kitchen'
