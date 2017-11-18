@@ -1,5 +1,4 @@
 resource_name :spring_boot_web_app
-actions :uninstall, :install
 default_action :install
 
 property :name, kind_of: String
@@ -24,7 +23,7 @@ action :install do
   jar_directory = "/opt/spring-boot/#{new_resource.name}"
   jar_path = jar_directory + '/' + new_resource.name + '.jar'
   logging_directory = jar_directory + '/logs'
-  unless repo_user.nil? or repo_password.nil?
+  unless repo_user.nil? || repo_password.nil?
     basic_auth = "#{repo_user}:#{repo_password}"
   end
   declare_resource(:user, new_resource.user) do
@@ -57,7 +56,7 @@ action :install do
     owner new_resource.user
     group new_resource.group
     unless basic_auth.nil?
-      headers ({"Authorization"=>"Basic #{ Base64.encode64("#{basic_auth}").strip }"})
+      headers('Authorization' => "Basic #{Base64.encode64(basic_auth).strip}")
     end
     mode '0500'
     action :create
