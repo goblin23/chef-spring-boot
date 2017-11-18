@@ -24,12 +24,9 @@ platforms:
 suites:
   - name: init
     run_list:
-      - recipe[spring-boot::default]
-      - recipe[spring-boot::example_init]
-
+      - recipe[fake::example_init]
   - name: systemd
     run_list:
-      - recipe[spring-boot::default]
-      - recipe[spring-boot::example_systemd]
+      - recipe[fake::example_systemd]
     excludes:
       - ubuntu-14.04
