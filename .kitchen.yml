@@ -1,39 +1,35 @@
----
 driver:
-  name: vagrant
+  name: dokken
+  privileged: true # because Docker and SystemD/Upstart
+  chef_version: current
+  ports:
+    - 8080:8080
 
 provisioner:
-  name: chef_zero
-  require_chef_omnibus: 12
+  name: dokken
+  data_bags_path: ./data_bags
+
+transport:
+  name: dokken
 
 verifier:
   name: inspec
-
 platforms:
   - name: ubuntu-14.04
-  - name: centos-7.3
-
-driver_config:
-  customize:
-    cpus: 2
-    memory: 1024
-
+    driver:
+      image: dokken/ubuntu-14.04
+      pid_one_command: /sbin/init
+      intermediate_instructions:
+        - RUN /usr/bin/apt-get update
 suites:
   - name: init
     run_list:
       - recipe[spring-boot::default]
       - recipe[spring-boot::example_init]
-    attributes:
-    verifier:
-      inspec_tests:
-        - test/recipes/example_init_test.rb
+
   - name: systemd
     run_list:
       - recipe[spring-boot::default]
       - recipe[spring-boot::example_systemd]
-    attributes:
-    verifier:
-      inspec_tests:
-        - test/recipes/example_systemd_test.rb
     excludes:
       - ubuntu-14.04
