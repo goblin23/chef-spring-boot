@@ -14,7 +14,7 @@ bundler_args: "--binstubs=$PWD/bin --jobs 3 --retry 3"
 env:
   global:
     - KITCHEN_YAML=.kitchen.yml
-    - INSTANCE=default-fedora
+    - INSTANCE=init
 
 before_install:
   - sudo apt-get -qq update
