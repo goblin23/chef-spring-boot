@@ -19,6 +19,9 @@ describe port(8091) do
 end
 
 describe port(8092) do
+  before do
+    sleep(5)
+  end
   it { should be_listening }
 end
 

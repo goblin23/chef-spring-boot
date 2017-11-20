@@ -1,4 +1,6 @@
-Spring Boot Chef Cookbook - *Work in Progress*
+[![Cookbook Version](https://img.shields.io/cookbook/v/spring-boot.svg)](https://supermarket.chef.io/cookbooks/spring-boot)
+[![Build Status](https://travis-ci.org/goblin23/chef-spring-boot.svg?branch=master)](https://travis-ci.org/goblin23/chef-spring-boot)
+Spring Boot Chef Cookbook
 =====
 Chef cookbook to install and deploy Spring Boot
 Applications. Currently only supports Spring Boot Web
@@ -50,7 +52,7 @@ e.g.:
 
 file                          | content       |
 ------------                  | ------------- |
-`app_1_initd.properties`      | `a=5`<br> `b=10`| 
+`app_1_initd.properties`      | `a=5`<br> `b=10`|
 `other_properties.properties` | `c=25`        |
 
 ## Testing

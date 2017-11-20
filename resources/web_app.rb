@@ -1,7 +1,6 @@
 resource_name :spring_boot_web_app
 default_action :install
 
-property :name, kind_of: String
 property :user, kind_of: String, default: 'bootapp'
 property :group, kind_of: String, default: 'bootapp'
 property :port, kind_of: Integer, default: 8080
@@ -19,12 +18,11 @@ property :wait_for_http_retries, kind_of: Integer, default: 24
 property :wait_for_http_retry_delay, kind_of: Integer, default: 5
 
 action :install do
-  #  require "pry"; binding.pry
   jar_directory = "/opt/spring-boot/#{new_resource.name}"
   jar_path = jar_directory + '/' + new_resource.name + '.jar'
   logging_directory = jar_directory + '/logs'
-  unless repo_user.nil? || repo_password.nil?
-    basic_auth = "#{repo_user}:#{repo_password}"
+  unless new_resource.repo_user.nil? || new_resource.repo_password.nil?
+    basic_auth = "#{new_resource.repo_user}:#{new_resource.repo_password}"
   end
   declare_resource(:user, new_resource.user) do
     shell '/usr/sbin/nologin'
@@ -69,7 +67,7 @@ action :install do
   #   user 'root'
   # end
   if property_is_set?(:properties)
-    properties.each do |key, value|
+    new_resource.properties.each do |key, value|
       file "#{jar_directory}/#{key}.properties" do
         content value.map { |k, v| "#{k}=#{v}" }.join("\n")
       end
@@ -96,7 +94,7 @@ action :install do
     end
 
     execute 'systemctl_daemon_reload' do
-      command '/usr/bin/systemctl daemon-reload'
+      command 'systemctl daemon-reload'
       action :nothing
     end
 
@@ -121,7 +119,7 @@ action :install do
       to jar_path
     end
   else
-    Chef::Application.fatal!("Invalid init system specified: #{init_system}", 1)
+    Chef::Application.fatal!("Invalid init system specified: #{new_resource.init_system}", 1)
   end
 
   service new_resource.name do
@@ -148,7 +146,7 @@ action :uninstall do
     end
 
     execute 'systemctl_daemon_reload' do
-      command '/usr/bin/systemctl daemon-reload'
+      command 'systemctl daemon-reload'
       action :nothing
     end
   elsif new_resource.init_system == 'init.d'

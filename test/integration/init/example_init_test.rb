@@ -1,5 +1,3 @@
-require 'rspec/retry'
-
 describe sysv_service('app_0_initd') do
   it { should_not be_enabled }
 end
@@ -17,15 +15,14 @@ describe port(9080) do
 end
 
 describe port(9091) do
-  it 'should succeed after a while', retry: 4, retry_wait: 10 do
-    should be_listening
-  end
+  it { should be_listening }
 end
 
 describe port(9092) do
-  it 'should succeed after a while', retry: 6, retry_wait: 20 do
-    should be_listening
+  before do
+    sleep(5)
   end
+  it { should be_listening }
 end
 
 describe user('another_bootapp_user') do
