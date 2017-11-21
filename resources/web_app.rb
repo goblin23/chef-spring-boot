@@ -11,7 +11,7 @@ property :properties, kind_of: Hash
 property :repo_user, kind_of: String
 property :repo_password, kind_of: String
 property :jmx_port, kind_of: Integer
-property :jmx_ssl, kind_of: [ TrueClass, FalseClass ], default: false
+property :jmx_ssl, kind_of: [TrueClass, FalseClass], default: false
 property :jmx_credentials, kind_of: Hash, default: {
   'monitorRole' => {
     'password' => '',
@@ -29,7 +29,7 @@ action :install do
   logging_directory = jar_directory + '/logs'
   jmx_access_path = jar_directory + '/jmxremote.access'
   jmx_password_path = jar_directory + '/jmxremote.password'
-  unless repo_user.nil? or repo_password.nil?
+  unless repo_user.nil? || repo_password.nil?
     basic_auth = "#{repo_user}:#{repo_password}"
   end
   declare_resource(:user, new_resource.user) do
@@ -72,13 +72,13 @@ action :install do
       mode '0400'
     end
 
-    new_resource.java_opts << " -Dcom.sun.management.jmxremote=true -Dcom.sun.management.jmxremote.port=" + jmx_port.to_s
-    if property_is_set?(:jmx_credentials)
-      new_resource.java_opts << " -Dcom.sun.management.jmxremote.password.file=#{jmx_password_path} -Dcom.sun.management.jmxremote.authenticate=true"
-    else
-      new_resource.java_opts << " -Dcom.sun.management.jmxremote.authenticate=false"
-    end
-    new_resource.java_opts << " -Dcom.sun.management.jmxremote.ssl=" + jmx_ssl.to_s
+    new_resource.java_opts << ' -Dcom.sun.management.jmxremote=true -Dcom.sun.management.jmxremote.port=' + jmx_port.to_s
+    new_resource.java_opts << if property_is_set?(:jmx_credentials)
+                                " -Dcom.sun.management.jmxremote.password.file=#{jmx_password_path} -Dcom.sun.management.jmxremote.authenticate=true"
+                              else
+                                ' -Dcom.sun.management.jmxremote.authenticate=false'
+                              end
+    new_resource.java_opts << ' -Dcom.sun.management.jmxremote.ssl=' + jmx_ssl.to_s
   end
 
   directory logging_directory do

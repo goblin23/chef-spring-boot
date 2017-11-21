@@ -6,7 +6,7 @@ spring_boot_web_app 'app_0_initd' do
   init_system 'init.d'
   port 9090
 end
-props = { 'app_1_initd' => { 'a' => '5', 'b' => '10' }}
+props = { 'app_1_initd' => { 'a' => '5', 'b' => '10' } }
 
 jmx_credentials = {
   'monitorRole' => {
