@@ -1,5 +1,9 @@
 spring-boot CHANGELOG
 ====
 
-## 0.5.1
-- [JonsJava](https://github.com/jonsjava) - Cleaned up recipes, added new features that Chef now expects, broke example recipes into fake cookbook.
+## 1.0.0
+- [JonsJava](https://github.com/jonsjava)
+- Cleaned up recipes, added new features that Chef now expects, broke example recipes into fake cookbook.
+- [goblin23](https://github.com/goblin23)
+- Converted LWRP into a custom ressource
+- Removed dependency to the java cookbook
