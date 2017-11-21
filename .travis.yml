@@ -8,7 +8,7 @@ addons:
     packages:
       - chefdk
 
-install: gem install rspec-retry
+install: echo "skipping bundle install"
 
 services: docker
 jobs:
