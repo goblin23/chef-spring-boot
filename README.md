@@ -67,6 +67,7 @@ where
 * ``wait_for_http`` - should chef wait for the webapp to answer `default: true`
 * ``wait_for_http_retries`` - how many times should chef-client retry   `default: 24`
 * ``wait_for_http_retry_delay`` - how long should chef-client wait before each request `default: 5`
+* ``jmx_credentials`` - a hash that describes jmx_credentials
 
 See "Properties" section below for more information about all of the properties that may be used with this resource.
 
@@ -87,7 +88,6 @@ This resource has the following actions:
 
    A resource may notify another resource to take action when its state changes. Specify a ``'resource[name]'``, the ``:action`` that resource should take, and then the ``:timer`` for that action. A resource may notify more than one resource; use a ``notifies`` statement for each resource to be notified.
 
-
    A timer specifies the point during the chef-client run at which a notification is run. The following timers are available:
 
    ``:before``
@@ -107,11 +107,11 @@ notifies :action, 'resource[name]', :timer
 
 ``properties``
    **Ruby Type:** Hash
-   
+
    Optional. The keys on the toplevel of the hash are the filename of a properties file postfixed with **.properties**
    the values of the toplevel keys are hashes containing key, value pairs that are written out to the file - for example:
 ```ruby
-{ 'app_1_initd' => { 'a' => '5', 'b' => '10' }, 'other_properties' => { 'c' => '25'}}  
+{ 'app_1_initd' => { 'a' => '5', 'b' => '10' }, 'other_properties' => { 'c' => '25'}} 
 ```
 would create two properties files:
 
@@ -120,7 +120,22 @@ file                          | content       |
 `app_1_initd.properties`      | `a=5`<br> `b=10`|
 `other_properties.properties` | `c=25`        |
 
+``jmx_credentials``
+   **Ruby Type:** Hash
 
+  Optional. the keys on the toplevel are the usernames their values are hases containing a `password` and `access` key.
+  - for example:
+```
+{ 'monitorRole' => { 'password' => 'monitor', 'access' => 'readonly'}}
+```
+would create the two files jmxremote.access and jmxremote.password as follows:
+```
+# jmxremote.access
+monitorRole readonly
+
+# jmxremote.password
+monitorRole monitor
+```
 Examples
 =====================================================
 
