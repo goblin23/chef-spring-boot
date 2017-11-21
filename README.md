@@ -23,16 +23,16 @@ Syntax
 
 This cookbook provides a [custom resource](https://docs.chef.io/custom_resources.html) named `spring_boot_web_app`.
 The simplest use of the **spring_boot_web_app** resource is:
-```ruby
-  spring_boot_web_app 'name_of_webapp' do
-    jar_remote_path 'http://example.com/path/to/your/jar/your_jar.jar'
-  end
+```
+spring_boot_web_app 'name_of_webapp' do
+  jar_remote_path 'http://example.com/path/to/your/jar/your_jar.jar'
+end
 ```
 which will download your artifact from **jar_remote_path** and create a "systemd" service listening on port ***8080***
 started by the user ***bootapp***
 
 The full syntax for all of the properties that are available to the **spring_boot_web_app** resource is:
-```ruby
+```
 spring_boot_web_app 'name_of_webapp' do
   notifies                   # see description
   user                       String # defaults to bootapp
@@ -101,7 +101,7 @@ This resource has the following actions:
 
    The syntax for ``notifies`` is:
 
-```ruby
+```
 notifies :action, 'resource[name]', :timer
 ```
 
@@ -110,14 +110,14 @@ notifies :action, 'resource[name]', :timer
    
    Optional. The keys on the toplevel of the hash are the filename of a properties file postfixed with **.properties**
    the values of the toplevel keys are hashes containing key, value pairs that are written out to the file - for example:
-```ruby
+```
 { 'app_1_initd' => { 'a' => '5', 'b' => '10' }, 'other_properties' => { 'c' => '25'}}  
 ```
 would create two properties files:
 
 file                          | content       |
 ------------                  | ------------- |
-`app_1_initd.properties`      | `a=5`<br> `b=10`|
+`app_1_initd.properties`      | `a=5` `b=10`  |
 `other_properties.properties` | `c=25`        |
 
 
