@@ -7,3 +7,6 @@ spring-boot CHANGELOG
 - [goblin23](https://github.com/goblin23)
 - Converted LWRP into a custom ressource
 - Removed dependency to the java cookbook
+## 1.1.0
+- [Khorchammar](https://github.com/Khorchammar)
+- Added jmx configuration
