@@ -10,9 +10,15 @@ property :boot_opts, kind_of: String, default: ''
 property :properties, kind_of: Hash
 property :repo_user, kind_of: String
 property :repo_password, kind_of: String
-
+property :jmx_port, kind_of: Integer
+property :jmx_ssl, kind_of: [ TrueClass, FalseClass ], default: false
+property :jmx_credentials, kind_of: Hash, default: {
+  'monitorRole' => {
+    'password' => '',
+    'access' => 'readonly',
+  },
+}
 property :init_system, kind_of: String, default: 'systemd'
-
 property :wait_for_http, kind_of: [TrueClass, FalseClass], default: true
 property :wait_for_http_retries, kind_of: Integer, default: 24
 property :wait_for_http_retry_delay, kind_of: Integer, default: 5
@@ -21,8 +27,10 @@ action :install do
   jar_directory = "/opt/spring-boot/#{new_resource.name}"
   jar_path = jar_directory + '/' + new_resource.name + '.jar'
   logging_directory = jar_directory + '/logs'
-  unless new_resource.repo_user.nil? || new_resource.repo_password.nil?
-    basic_auth = "#{new_resource.repo_user}:#{new_resource.repo_password}"
+  jmx_access_path = jar_directory + '/jmxremote.access'
+  jmx_password_path = jar_directory + '/jmxremote.password'
+  unless repo_user.nil? or repo_password.nil?
+    basic_auth = "#{repo_user}:#{repo_password}"
   end
   declare_resource(:user, new_resource.user) do
     shell '/usr/sbin/nologin'
@@ -39,6 +47,38 @@ action :install do
     mode '0500'
     action :create
     recursive true
+  end
+
+  unless jmx_port.nil?
+    content_jmx_access = ''
+    new_resource.jmx_credentials.each do |username, values|
+      content_jmx_access << "#{username} #{values['access']}\n"
+    end
+    declare_resource(:file, jmx_access_path) do
+      content content_jmx_access
+      owner new_resource.user
+      group new_resource.group
+      mode '0400'
+    end
+
+    content_jmx_password = ''
+    new_resource.jmx_credentials.each do |username, values|
+      content_jmx_password << "#{username} #{values['password']}\n"
+    end
+    declare_resource(:file, jmx_password_path) do
+      content content_jmx_password
+      owner new_resource.user
+      group new_resource.group
+      mode '0400'
+    end
+
+    new_resource.java_opts << " -Dcom.sun.management.jmxremote=true -Dcom.sun.management.jmxremote.port=" + jmx_port.to_s
+    if property_is_set?(:jmx_credentials)
+      new_resource.java_opts << " -Dcom.sun.management.jmxremote.password.file=#{jmx_password_path} -Dcom.sun.management.jmxremote.authenticate=true"
+    else
+      new_resource.java_opts << " -Dcom.sun.management.jmxremote.authenticate=false"
+    end
+    new_resource.java_opts << " -Dcom.sun.management.jmxremote.ssl=" + jmx_ssl.to_s
   end
 
   directory logging_directory do
