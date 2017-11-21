@@ -23,35 +23,35 @@ Syntax
 
 This cookbook provides a [custom resource](https://docs.chef.io/custom_resources.html) named `spring_boot_web_app`.
 The simplest use of the **spring_boot_web_app** resource is:
-
-.. code-block:: ruby
+```ruby
   spring_boot_web_app 'name_of_webapp' do
     jar_remote_path 'http://example.com/path/to/your/jar/your_jar.jar'
   end
+```
 which will download your artifact from **jar_remote_path** and create a "systemd" service listening on port ***8080***
 started by the user ***bootapp***
 
 The full syntax for all of the properties that are available to the **spring_boot_web_app** resource is:
-.. code-block:: ruby
-  spring_boot_web_app 'name_of_webapp' do
-    notifies                   # see description
-    user                       String # defaults to bootapp
-    group                      String # defaults to bootapp
-    port                       Integer # defaults to 8080
-    jar_remote_path            String
-    java_opts                  String
-    boot_opts                  String
-    properties                 Hash
-    repo_user                  String
-    repo_password              String
-    init_system                String # defaults to systemd
-    wait_for_http              [TrueClass, FalseClass] # defaults to true
-    wait_for_http_retries      Integer # defaults 24
-    wait_for_http_retry_delay  Integer # defaults 5
-    subscribes                 # see description
-    action                     Symbol # defaults to :install if not specified
-  end
-
+```ruby
+spring_boot_web_app 'name_of_webapp' do
+  notifies                   # see description
+  user                       String # defaults to bootapp
+  group                      String # defaults to bootapp
+  port                       Integer # defaults to 8080
+  jar_remote_path            String
+  java_opts                  String
+  boot_opts                  String
+  properties                 Hash
+  repo_user                  String
+  repo_password              String
+  init_system                String # defaults to systemd
+  wait_for_http              [TrueClass, FalseClass] # defaults to true
+  wait_for_http_retries      Integer # defaults 24
+  wait_for_http_retry_delay  Integer # defaults 5
+  subscribes                 # see description
+  action                     Symbol # defaults to :install if not specified
+end
+```
 where
 
 * ``user``  - the user that runs the webapp `default: 'bootapp'`
@@ -85,13 +85,8 @@ This resource has the following actions:
 ``notifies``
    **Ruby Type:** Symbol, 'Chef::Resource[String]'
 
-   .. tag resources_common_notification_notifies
-
    A resource may notify another resource to take action when its state changes. Specify a ``'resource[name]'``, the ``:action`` that resource should take, and then the ``:timer`` for that action. A resource may notify more than one resource; use a ``notifies`` statement for each resource to be notified.
 
-   .. end_tag
-
-   .. tag resources_common_notification_timers
 
    A timer specifies the point during the chef-client run at which a notification is run. The following timers are available:
 
@@ -104,26 +99,20 @@ This resource has the following actions:
    ``:immediate``, ``:immediately``
       Specifies that a notification should be run immediately, per resource notified.
 
-   .. end_tag
-
-   .. tag resources_common_notification_notifies_syntax
-
    The syntax for ``notifies`` is:
 
-   .. code-block:: ruby
-
-      notifies :action, 'resource[name]', :timer
-
-   .. end_tag
+```ruby
+notifies :action, 'resource[name]', :timer
+```
 
 ``properties``
    **Ruby Type:** Hash
+   
    Optional. The keys on the toplevel of the hash are the filename of a properties file postfixed with **.properties**
    the values of the toplevel keys are hashes containing key, value pairs that are written out to the file - for example:
-   .. code-block:: ruby
-   
-   { 'app_1_initd' => { 'a' => '5', 'b' => '10' }, 'other_properties' => { 'c' => '25'}}
-
+```ruby
+{ 'app_1_initd' => { 'a' => '5', 'b' => '10' }, 'other_properties' => { 'c' => '25'}}  
+```
 would create two properties files:
 
 file                          | content       |
