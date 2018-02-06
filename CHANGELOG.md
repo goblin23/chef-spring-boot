@@ -10,3 +10,7 @@ spring-boot CHANGELOG
 ## 1.1.0
 - [Khorchammar](https://github.com/Khorchammar)
 - Added jmx configuration
+
+## 1.1.1
+- [JonsJava](https://github.com/jonsjava)
+- Very minor tweak to the README.md to ensure that the Multi-Dimensional array is Cookstyle-compliant. (spaces before closing `}`)

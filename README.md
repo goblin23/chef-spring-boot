@@ -111,7 +111,7 @@ notifies :action, 'resource[name]', :timer
    Optional. The keys on the toplevel of the hash are the filename of a properties file postfixed with **.properties**
    the values of the toplevel keys are hashes containing key, value pairs that are written out to the file - for example:
 ```
-{ 'app_1_initd' => { 'a' => '5', 'b' => '10' }, 'other_properties' => { 'c' => '25'}} 
+{ 'app_1_initd' => { 'a' => '5', 'b' => '10' }, 'other_properties' => { 'c' => '25'} } 
 ```
 would create two properties files:
 
@@ -126,7 +126,7 @@ file                          | content       |
   Optional. the keys on the toplevel are the usernames their values are hases containing a `password` and `access` key.
   - for example:
 ```
-{ 'monitorRole' => { 'password' => 'monitor', 'access' => 'readonly'}}
+{ 'monitorRole' => { 'password' => 'monitor', 'access' => 'readonly'} }
 ```
 would create the two files jmxremote.access and jmxremote.password as follows:
 ```
