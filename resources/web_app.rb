@@ -29,8 +29,8 @@ action :install do
   logging_directory = jar_directory + '/logs'
   jmx_access_path = jar_directory + '/jmxremote.access'
   jmx_password_path = jar_directory + '/jmxremote.password'
-  unless repo_user.nil? || repo_password.nil?
-    basic_auth = "#{repo_user}:#{repo_password}"
+  unless new_resource.repo_user.nil? || new_resource.repo_password.nil?
+    basic_auth = "#{new_resource.repo_user}:#{new_resource.repo_password}"
   end
   declare_resource(:user, new_resource.user) do
     shell '/usr/sbin/nologin'
@@ -49,7 +49,7 @@ action :install do
     recursive true
   end
 
-  unless jmx_port.nil?
+  unless new_resource.jmx_port.nil?
     content_jmx_access = ''
     new_resource.jmx_credentials.each do |username, values|
       content_jmx_access << "#{username} #{values['access']}\n"
@@ -72,13 +72,13 @@ action :install do
       mode '0400'
     end
 
-    new_resource.java_opts << ' -Dcom.sun.management.jmxremote=true -Dcom.sun.management.jmxremote.port=' + jmx_port.to_s
+    new_resource.java_opts << ' -Dcom.sun.management.jmxremote=true -Dcom.sun.management.jmxremote.port=' + new_resource.jmx_port.to_s
     new_resource.java_opts << if property_is_set?(:jmx_credentials)
                                 " -Dcom.sun.management.jmxremote.password.file=#{jmx_password_path} -Dcom.sun.management.jmxremote.authenticate=true"
                               else
                                 ' -Dcom.sun.management.jmxremote.authenticate=false'
                               end
-    new_resource.java_opts << ' -Dcom.sun.management.jmxremote.ssl=' + jmx_ssl.to_s
+    new_resource.java_opts << ' -Dcom.sun.management.jmxremote.ssl=' + new_resource.jmx_ssl.to_s
   end
 
   directory logging_directory do
