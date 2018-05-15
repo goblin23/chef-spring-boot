@@ -1,27 +1,27 @@
 resource_name :spring_boot_web_app
 default_action :install
 
-property :user, kind_of: String, default: 'bootapp'
-property :group, kind_of: String, default: 'bootapp'
-property :port, kind_of: Integer, default: 8080
-property :jar_remote_path, kind_of: String, required: true
-property :java_opts, kind_of: String, default: ''
-property :boot_opts, kind_of: String, default: ''
-property :properties, kind_of: Hash
-property :repo_user, kind_of: String
-property :repo_password, kind_of: String
-property :jmx_port, kind_of: Integer
-property :jmx_ssl, kind_of: [TrueClass, FalseClass], default: false
-property :jmx_credentials, kind_of: Hash, default: {
+property :user, String, default: 'bootapp'
+property :group, String, default: 'bootapp'
+property :port, Integer, default: 8080
+property :jar_remote_path, String, required: true
+property :java_opts, String, default: ''
+property :boot_opts, String, default: ''
+property :properties, Hash
+property :repo_user, String
+property :repo_password, String
+property :jmx_port, Integer
+property :jmx_ssl, [TrueClass, FalseClass], default: false
+property :jmx_credentials, Hash, default: {
   'monitorRole' => {
     'password' => '',
     'access' => 'readonly',
   },
 }
-property :init_system, kind_of: String, default: 'systemd'
-property :wait_for_http, kind_of: [TrueClass, FalseClass], default: true
-property :wait_for_http_retries, kind_of: Integer, default: 24
-property :wait_for_http_retry_delay, kind_of: Integer, default: 5
+property :init_system, String, default: 'systemd'
+property :wait_for_http, [TrueClass, FalseClass], default: true
+property :wait_for_http_retries, Integer, default: 24
+property :wait_for_http_retry_delay, Integer, default: 5
 
 action :install do
   jar_directory = "/opt/spring-boot/#{new_resource.name}"
