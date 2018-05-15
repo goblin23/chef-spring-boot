@@ -14,3 +14,5 @@ spring-boot CHANGELOG
 ## 1.1.1
 - [JonsJava](https://github.com/jonsjava)
 - Very minor tweak to the README.md to ensure that the Multi-Dimensional array is Cookstyle-compliant. (spaces before closing `}`)
+## 1.1.2
+- [frank-carnovale] Set current working directory in service definition template
