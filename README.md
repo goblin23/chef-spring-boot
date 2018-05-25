@@ -54,20 +54,20 @@ end
 ```
 where
 
-* ``user``  - the user that runs the webapp `default: 'bootapp'`
-* ``group`` - the group the user who runs the web_app belongs to `default: 'bootapp'``
-* ``port`` - the port that the web_app listens on `default: 8080`
-* ``jar_remote_path`` - the location the jar_file is fetched from
-* ``java_opts`` - the `JAVA_OPTS` the application is started with
-* ``boot_opts`` - the `BOOT_OPTS` the application is started with
-* ``properties`` - a Hash that describes properties files
-* ``repo_user`` - the user if your `jar_remote_path` is protected by basic auth
-* ``repo_password`` - the password if your `jar_remote_path` is protected by basic auth
-* ``init_system`` - for now `systemd` and `initd` are valid options `default: 'systemd'`
-* ``wait_for_http`` - should chef wait for the webapp to answer `default: true`
-* ``wait_for_http_retries`` - how many times should chef-client retry   `default: 24`
-* ``wait_for_http_retry_delay`` - how long should chef-client wait before each request `default: 5`
-* ``jmx_credentials`` - a hash that describes jmx_credentials
+*   ``user``  - the user that runs the webapp `default: 'bootapp'`
+*   ``group`` - the group the user who runs the web_app belongs to `default: 'bootapp'``
+*   ``port`` - the port that the web_app listens on `default: 8080`
+*   ``jar_remote_path`` - the location the jar_file is fetched from
+*   ``java_opts`` - the `JAVA_OPTS` the application is started with
+*   ``boot_opts`` - the `BOOT_OPTS` the application is started with
+*   ``properties`` - a Hash that describes properties files
+*   ``repo_user`` - the user if your `jar_remote_path` is protected by basic auth
+*   ``repo_password`` - the password if your `jar_remote_path` is protected by basic auth
+*   ``init_system`` - for now `systemd` and `initd` are valid options `default: 'systemd'`
+*   ``wait_for_http`` - should chef wait for the webapp to answer `default: true`
+*   ``wait_for_http_retries`` - how many times should chef-client retry   `default: 24`
+*   ``wait_for_http_retry_delay`` - how long should chef-client wait before each request `default: 5`
+*   ``jmx_credentials`` - a hash that describes jmx_credentials
 
 See "Properties" section below for more information about all of the properties that may be used with this resource.
 
@@ -84,7 +84,7 @@ This resource has the following actions:
 ### Properties
 
 ``notifies``
-   **Ruby Type:** Symbol, 'Chef::Resource[String]'
+   **Ruby Type:** Symbol, `'Chef::Resource[String]'`
 
    A resource may notify another resource to take action when its state changes. Specify a ``'resource[name]'``, the ``:action`` that resource should take, and then the ``:timer`` for that action. A resource may notify more than one resource; use a ``notifies`` statement for each resource to be notified.
 
@@ -129,6 +129,7 @@ file                          | content       |
 { 'monitorRole' => { 'password' => 'monitor', 'access' => 'readonly'} }
 ```
 would create the two files jmxremote.access and jmxremote.password as follows:
+
 ```
 # jmxremote.access
 monitorRole readonly
