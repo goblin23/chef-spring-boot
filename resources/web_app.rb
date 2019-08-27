@@ -2,6 +2,7 @@ resource_name :spring_boot_web_app
 default_action :install
 
 property :user, String, default: 'bootapp'
+property :shell, String, default: '/usr/sbin/nologin'
 property :group, String, default: 'bootapp'
 property :port, Integer, default: 8080
 property :jar_remote_path, String, required: true
@@ -33,7 +34,7 @@ action :install do
     basic_auth = "#{new_resource.repo_user}:#{new_resource.repo_password}"
   end
   declare_resource(:user, new_resource.user) do
-    shell '/usr/sbin/nologin'
+    shell new_resource.shell
   end
 
   declare_resource(:group, new_resource.group) do
