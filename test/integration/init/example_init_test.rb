@@ -30,7 +30,7 @@ describe port(9092) do
 end
 
 describe user('another_bootapp_user') do
-  its('shell') { should eq '/usr/sbin/nologin' }
+  its('shell') { should eq '/bin/sh' }
 end
 
 describe file('/opt/spring-boot/app_1_initd/app_1_initd.jar') do

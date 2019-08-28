@@ -23,6 +23,7 @@ spring_boot_web_app 'app_1_initd' do
   jar_remote_path web_app_jar
   init_system 'init.d'
   user 'another_bootapp_user'
+  shell '/bin/sh'
   group 'another_bootapp_group'
   port 9091
   properties props
