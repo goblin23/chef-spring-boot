@@ -4,7 +4,7 @@ maintainer_email 'guido.schoening@gmail.com'
 license 'Apache-2.0'
 description 'Installs/Configures spring-boot-app'
 long_description 'Installs/Configures spring-boot-app'
-version '1.1.2'
+version '1.1.3'
 chef_version '>= 12.5' if respond_to?(:chef_version)
 supports 'ubuntu'
 supports 'centos'
