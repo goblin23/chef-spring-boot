@@ -1,12 +1,12 @@
 [Unit]
-Description=<%= @description %>
+Description=<%= @service_name %>
 After=syslog.target
 
 [Service]
 User=<%= @user %>
 ExecStart=/usr/bin/java <%= @java_opts %> -jar <%= @jar_path %> --server.port=<%= @port %> --logging.path=<%= @logging_directory %> <%= @boot_opts %>
 SuccessExitStatus=143
-WorkingDirectory=/opt/spring-boot/<%= @description %>
+WorkingDirectory=/opt/spring-boot/<%= @service_name %>
 
 [Install]
 WantedBy=multi-user.target

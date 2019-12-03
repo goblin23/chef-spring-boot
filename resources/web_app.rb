@@ -122,7 +122,7 @@ action :install do
       group 'root'
       cookbook 'spring-boot'
       variables(
-        description: new_resource.name,
+        service_name: new_resource.name,
         user: new_resource.user,
         jar_path: jar_path,
         java_opts: new_resource.java_opts,
