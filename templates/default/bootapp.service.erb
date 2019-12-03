@@ -6,7 +6,7 @@ After=syslog.target
 User=<%= @user %>
 ExecStart=/usr/bin/java <%= @java_opts %> -jar <%= @jar_path %> --server.port=<%= @port %> --logging.path=<%= @logging_directory %> <%= @boot_opts %>
 SuccessExitStatus=143
-WorkingDirectory=/opt/spring-boot/<%= @new_resource_name %>
+WorkingDirectory=/opt/spring-boot/<%= @description %>
 
 [Install]
 WantedBy=multi-user.target
