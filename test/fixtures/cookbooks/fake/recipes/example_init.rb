@@ -1,4 +1,4 @@
-adoptopenjdk_install '11'
+adoptopenjdk_install '8'
 
 web_app_jar = 'https://github.com/EtienneK/spring-boot-web-sample/raw/master/dist/spring-boot-web-sample-0.0.1-SNAPSHOT.jar'
 
