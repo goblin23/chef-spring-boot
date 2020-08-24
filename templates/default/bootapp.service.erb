@@ -5,6 +5,8 @@ After=syslog.target
 [Service]
 User=<%= @user %>
 ExecStart=/usr/bin/java <%= @java_opts %> -jar <%= @jar_path %> --server.port=<%= @port %> --logging.path=<%= @logging_directory %> <%= @boot_opts %>
+StandardOutput=file:<%= @logging_directory %>/spring.log
+StandardError=file:<%= @logging_directory %>/spring.log
 SuccessExitStatus=143
 WorkingDirectory=/opt/spring-boot/<%= @service_name %>
 
