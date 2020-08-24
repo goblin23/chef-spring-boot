@@ -25,6 +25,6 @@ spring-boot CHANGELOG
 1.1.4
 ---
 -   [svenatwork] (https://github.com/svenatwork/) fix systemd service file template
-1.1.4
+1.1.5
 ---
 -   [svenatwork] (https://github.com/svenatwork/) set logging locations for stdout and stderr
