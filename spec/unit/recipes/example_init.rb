@@ -10,7 +10,7 @@ describe 'spring-boot::example_init' do
   context 'When all attributes are default, on an unspecified platform' do
     let(:chef_run) do
       runner = ChefSpec::ServerRunner.new(platform: 'ubuntu',
-                                          version: '14.04',
+                                          version: '18.04',
                                           step_into: ['spring_boot_web_app'])
       runner.converge(described_recipe)
     end

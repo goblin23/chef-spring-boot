@@ -12,7 +12,7 @@ property :properties, Hash
 property :repo_user, String
 property :repo_password, String
 property :jmx_port, Integer
-property :jmx_ssl, [TrueClass, FalseClass], default: false
+property :jmx_ssl, [true, false], default: false
 property :jmx_credentials, Hash, default: {
   'monitorRole' => {
     'password' => '',
@@ -20,7 +20,7 @@ property :jmx_credentials, Hash, default: {
   },
 }
 property :init_system, String, default: 'systemd'
-property :wait_for_http, [TrueClass, FalseClass], default: true
+property :wait_for_http, [true, false], default: true
 property :wait_for_http_retries, Integer, default: 24
 property :wait_for_http_retry_delay, Integer, default: 5
 
