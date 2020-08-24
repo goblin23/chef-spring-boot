@@ -14,6 +14,8 @@ services: docker
 jobs:
   include:
     - stage: style
+      env:
+        - CHEF_LICENSE="accept-no-persist"
       before_script:
         - eval "$(chef shell-init bash)"
         - chef --version
@@ -24,6 +26,7 @@ jobs:
         - foodcritic .
     - stage: itegration
       env:
+        - CHEF_LICENSE="accept-no-persist"
         - KITCHEN_YAML=.kitchen.yml
         - INSTANCE=ubuntu-1404 SUITE=init
       before_script:
@@ -32,6 +35,7 @@ jobs:
         - kitchen verify ${SUITE}-${INSTANCE}
     - stage: itegration
       env:
+        - CHEF_LICENSE="accept-no-persist"
         - KITCHEN_YAML=.kitchen.yml
         - INSTANCE=ubuntu-1604 SUITE=systemd
       before_script:
@@ -40,6 +44,7 @@ jobs:
         - kitchen verify ${SUITE}-${INSTANCE}
     - stage: itegration
       env:
+        - CHEF_LICENSE="accept-no-persist"
         - KITCHEN_YAML=.kitchen.yml
         - INSTANCE=centos-7 SUITE=systemd
       before_script:

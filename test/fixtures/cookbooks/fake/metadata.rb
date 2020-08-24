@@ -1,6 +1,6 @@
 name                    'fake'
-maintainer              'The Authors'
-maintainer_email        'you@example.com'
+maintainer              'Guido Schöninig'
+maintainer_email        'guido.schoening@gmail.com'
 license                 'Apache License, Version 2.0'
 description             'Installs/Configures spring-boot-app'
 long_description        'Installs/Configures spring-boot-app'

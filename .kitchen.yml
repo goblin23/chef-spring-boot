@@ -1,12 +1,14 @@
 driver:
   name: dokken
   privileged: true # because Docker and SystemD/Upstart
-  chef_version: 13.5.25
+  chef_version: 15
 
 provisioner:
   name: dokken
   data_bags_path: ./data_bags
-
+  chef_license: accept
+  client_rb:
+    chef_license: accept
 transport:
   name: dokken
 
