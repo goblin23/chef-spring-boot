@@ -22,7 +22,9 @@ spring-boot CHANGELOG
 ---
 -   [frank-carnovale](https://github.com/frank-carnovale) Set current working directory in service definition template
 -   [goblin23](https://github.com/goblin23) removed kind_of statements from custom ressource
-
-1.1.3
+1.1.4
 ---
--   [svenatwork](https://github.com/svenatwork) Made the users shell configurable with /usr/sbin/nologin as default
+-   [svenatwork] (https://github.com/svenatwork/) fix systemd service file template
+1.1.4
+---
+-   [svenatwork] (https://github.com/svenatwork/) set logging locations for stdout and stderr
